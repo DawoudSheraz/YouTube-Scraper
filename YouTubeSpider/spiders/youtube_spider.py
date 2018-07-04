@@ -10,12 +10,18 @@ class YoutubeSpider(scrapy.Spider):
 
     name = "YoutubeSpider"
     domain = ["youtube.com"]
-    start_urls = [
-        'https://www.youtube.com/watch?v=42RXS3b38_A',
-        'https://www.youtube.com/watch?v=pE7IrP0f7x8',
-        'https://www.youtube.com/watch?v=kYIf8I1dvdo',
-        'https://www.youtube.com/watch?v=fJeJuc27ggE',
-    ]
+
+    def start_requests(self):
+        """
+        Reads url from input.csv and generates request for each one of them
+        :return: Request for each url
+        """
+        input_file = open('input.txt','r')
+        start_url = []
+        for each in input_file:
+            start_url.append(each)
+        for url in start_url:
+            yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         """
@@ -23,8 +29,10 @@ class YoutubeSpider(scrapy.Spider):
         :param response: Page from the given url
         :return: data dictionary containing the extracted data
         """
-        youtube_item = YouTubeDataModel()
+        with open("tem.html", 'w') as f:
+            f.write(response.body)
 
+        youtube_item = YouTubeDataModel()
         youtube_item['url'] = response.url
         youtube_item['title'] = self.get_video_title(response)
         youtube_item['views'] = self.get_video_views(response)
@@ -45,7 +53,8 @@ class YoutubeSpider(scrapy.Spider):
         """
         title = ""
         try:
-            title = response.css("title::text").extract_first()
+            title = response.css(".watch-title::text").extract_first()
+            title = title.strip()
         except ValueError:
             pass
         return title
@@ -59,6 +68,7 @@ class YoutubeSpider(scrapy.Spider):
         views = ""
         try:
             views = response.css(".watch-view-count::text").extract_first()
+            views = views.split()[0]
         except ValueError:
             pass
         return views
@@ -101,9 +111,9 @@ class YoutubeSpider(scrapy.Spider):
         :return: Channel name, empty if Invalid or not found
         """
         channel_name = ""
-        try:        # Get span containing channel name, and then data from child
-            channel_name = response.css(".stat.attribution")\
-                .css("::text")\
+        try:        # Get div containing channel name, and then data from child
+            channel_name = response.css("div.yt-user-info")\
+                .css('a.yt-uix-sessionlink.spf-link::text')\
                 .extract_first()
         except ValueError:
             pass
