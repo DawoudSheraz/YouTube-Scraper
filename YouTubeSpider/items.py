@@ -23,3 +23,4 @@ class YouTubeDataModel(Item):
     number_of_comments = Field()
     channel_subscriber_count = Field()
     publish_date = Field()
+    url = Field()

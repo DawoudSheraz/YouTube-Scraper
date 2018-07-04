@@ -12,7 +12,7 @@ class YoutubespiderPipeline(object):
 
     def __init__(self):
         self.csvwriter = csv.writer(open('data.csv', 'wb'))
-        self.csvwriter.writerow(('Title,Views,Likes,Dislikes,Channel Name,'
+        self.csvwriter.writerow(('URL,Title,Views,Likes,Dislikes,Channel Name,'
                                 'Subscribers,Publish Date').split(','))
 
     def process_item(self, item, spider):
@@ -24,6 +24,7 @@ class YoutubespiderPipeline(object):
         :return: the item itself
         """
         self.csvwriter.writerow([
+                                 item['url'],
                                  item['title'].encode('UTF-8'),
                                  item['views'],
                                  item['likes'],

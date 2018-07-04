@@ -25,6 +25,7 @@ class YoutubeSpider(scrapy.Spider):
         """
         youtube_item = YouTubeDataModel()
 
+        youtube_item['url'] = response.url
         youtube_item['title'] = self.get_video_title(response)
         youtube_item['views'] = self.get_video_views(response)
         youtube_item['likes'] = self.get_video_likes(response)

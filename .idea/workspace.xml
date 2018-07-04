@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40f246de-7835-477a-86e7-8491e22f263c" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouTubeSpider/items.py" beforeDir="false" afterPath="$PROJECT_DIR$/YouTubeSpider/items.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouTubeSpider/pipelines.py" beforeDir="false" afterPath="$PROJECT_DIR$/YouTubeSpider/pipelines.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouTubeSpider/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/YouTubeSpider/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouTubeSpider/spiders/youtube_spider.py" beforeDir="false" afterPath="$PROJECT_DIR$/YouTubeSpider/spiders/youtube_spider.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,8 +18,8 @@
       <file leaf-file-name="items.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/YouTubeSpider/items.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="24" column="16" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="16" />
+            <state relative-caret-position="375">
+              <caret line="25" column="16" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
               <folding>
                 <element signature="e#153#166#0" expanded="true" />
               </folding>
@@ -32,8 +30,8 @@
       <file leaf-file-name="pipelines.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/YouTubeSpider/pipelines.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" column="46" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
+            <state relative-caret-position="210">
+              <caret line="14" column="37" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -41,8 +39,8 @@
       <file leaf-file-name="youtube_spider.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/YouTubeSpider/spiders/youtube_spider.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1266">
-              <caret line="16" column="54" selection-start-line="16" selection-start-column="54" selection-end-line="16" selection-end-column="54" />
+            <state relative-caret-position="405">
+              <caret line="27" column="42" selection-start-line="27" selection-start-column="42" selection-end-line="27" selection-end-column="42" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -65,14 +63,14 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/YouTubeSpider/items.py" />
         <option value="$PROJECT_DIR$/YouTubeSpider/settings.py" />
+        <option value="$PROJECT_DIR$/YouTubeSpider/items.py" />
         <option value="$PROJECT_DIR$/YouTubeSpider/spiders/youtube_spider.py" />
         <option value="$PROJECT_DIR$/YouTubeSpider/pipelines.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="65" />
     <option name="y" value="-4" />
     <option name="width" value="1375" />
@@ -171,30 +169,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/YouTubeSpider/spiders/youtube_spider.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1266">
-          <caret line="16" column="54" selection-start-line="16" selection-start-column="54" selection-end-line="16" selection-end-column="54" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/YouTubeSpider/items.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="16" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="16" />
+        <state relative-caret-position="375">
+          <caret line="25" column="16" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
           <folding>
             <element signature="e#153#166#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/YouTubeSpider/spiders/youtube_spider.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="42" selection-start-line="27" selection-start-column="42" selection-end-line="27" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/YouTubeSpider/pipelines.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="46" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
+        <state relative-caret-position="210">
+          <caret line="14" column="37" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
         </state>
       </provider>
     </entry>
