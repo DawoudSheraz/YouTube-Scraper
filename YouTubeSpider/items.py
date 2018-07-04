@@ -6,9 +6,20 @@
 # https://doc.scrapy.org/en/latest/topics/items.html
 
 import scrapy
+from scrapy import Item, Field
 
 
-class YoutubespiderItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class YouTubeDataModel(Item):
+
+    """
+    The class defines the item model to store the extracted data from YouTube
+    """
+
+    title = Field()
+    likes = Field()
+    dislikes = Field()
+    views = Field()
+    channel_name = Field()
+    number_of_comments = Field()
+    channel_subscriber_count = Field()
+    publish_date = Field()
