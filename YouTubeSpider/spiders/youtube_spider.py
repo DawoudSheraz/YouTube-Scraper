@@ -38,9 +38,9 @@ class YoutubeSpider(scrapy.Spider):
         To parse the response and extract the required mentioned fields
         :param response: Page from the given url
         :return: data dictionary containing the extracted data
-        """
-        # with open("tem.html", 'w') as f:
-        #     f.write(response.body)
+        # """
+        with open("temp.html", 'w') as f:
+            f.write(response.body)
 
         youtube_item = YouTubeDataModel()
         youtube_item['url'] = response.url
