@@ -23,9 +23,16 @@ class YoutubespiderPipeline(object):
         :param spider: spider that extracted and saved inside item
         :return: the item itself
         """
+        # Encode each entry to cater for non-English characters
+        for key, value in item.iteritems():
+            try:
+                item[key] = value.encode('UTF-8')
+            except AttributeError:      # Skip the empty values
+                pass
+
         self.csvwriter.writerow([
                                  item['url'],
-                                 item['title'].encode('UTF-8'),
+                                 item['title'],
                                  item['views'],
                                  item['likes'],
                                  item['dislikes'],

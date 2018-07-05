@@ -10,16 +10,26 @@ class YoutubeSpider(scrapy.Spider):
 
     name = "YoutubeSpider"
     domain = ["youtube.com"]
+    # start_urls = [
+    #     'https://www.youtube.com/watch?v=TA-sVvBPWrM',
+    # ]
 
     def start_requests(self):
         """
         Reads url from input.csv and generates request for each one of them
         :return: Request for each url
         """
-        input_file = open('input.txt','r')
+        input_file = open('input.txt', 'r')
         start_url = []
-        for each in input_file:
-            start_url.append(each)
+
+        # Check for command line input
+        try:
+            start_url = [self.url]
+        except AttributeError:
+            # If no CL argument, read links from txt file
+            start_url = [link for link in input_file]
+
+        # Generating request for every url
         for url in start_url:
             yield scrapy.Request(url=url, callback=self.parse)
 
@@ -29,8 +39,8 @@ class YoutubeSpider(scrapy.Spider):
         :param response: Page from the given url
         :return: data dictionary containing the extracted data
         """
-        with open("tem.html", 'w') as f:
-            f.write(response.body)
+        # with open("tem.html", 'w') as f:
+        #     f.write(response.body)
 
         youtube_item = YouTubeDataModel()
         youtube_item['url'] = response.url
