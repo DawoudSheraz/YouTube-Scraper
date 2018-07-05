@@ -11,7 +11,7 @@ import csv
 class YoutubespiderPipeline(object):
 
     def __init__(self):
-        self.csvwriter = csv.writer(open('data.csv', 'wb'))
+        self.csvwriter = csv.writer(open('data-itemloader.csv', 'wb'))
         self.csvwriter.writerow(('URL,Title,Views,Likes,Dislikes,Channel Name,'
                                 'Subscribers,Publish Date').split(','))
 

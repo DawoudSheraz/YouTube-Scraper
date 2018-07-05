@@ -72,8 +72,3 @@ class YoutubeItemLoader(ItemLoader):
     channel_name_in = MapCompose(remove_tags, white_space_stripper)
 
     publish_date_in = MapCompose(remove_tags, date_value_extractor)
-
-
-
-
-
