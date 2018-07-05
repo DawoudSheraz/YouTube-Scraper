@@ -51,10 +51,7 @@ class YoutubeSpider(scrapy.Spider):
         yt_item_loader.add_value('likes', self.get_video_likes(response))
         yt_item_loader.add_value('dislikes', self.get_video_dislikes(response))
         yt_item_loader.add_value('channel_name', self.get_video_channel_name(response))
-        temp_val = self.get_subscriber_count(response)
-        if temp_val==None:
-            temp_val = ""
-        yt_item_loader.add_value('channel_subscriber_count', temp_val)
+        yt_item_loader.add_value('channel_subscriber_count', self.get_subscriber_count(response))
         yt_item_loader.add_value('publish_date', self.get_video_publishing_date(response))
 
         return yt_item_loader.load_item()
@@ -68,7 +65,7 @@ class YoutubeSpider(scrapy.Spider):
         """
         title = ""
         try:
-            title = response.css(".watch-title::text").extract_first()
+            title = response.css(".watch-title::text").extract_first(default='')
         except ValueError:
             pass
         return title
@@ -81,7 +78,7 @@ class YoutubeSpider(scrapy.Spider):
         """
         views = ""
         try:
-            views = response.css(".watch-view-count::text").extract_first()
+            views = response.css(".watch-view-count::text").extract_first(default='')
 
         except ValueError:
             pass
@@ -95,7 +92,7 @@ class YoutubeSpider(scrapy.Spider):
         """
         likes = ""
         try:    # First get the like button, and then data from child span
-            likes = response.css(".like-button-renderer-like-button").extract_first()
+            likes = response.css(".like-button-renderer-like-button").extract_first(default='')
         except ValueError:
             pass
         return likes
@@ -108,7 +105,7 @@ class YoutubeSpider(scrapy.Spider):
         """
         dislikes = ""
         try:  # First get the dislike button, and then data from child span
-            dislikes = response.css(".like-button-renderer-dislike-button").extract_first()
+            dislikes = response.css(".like-button-renderer-dislike-button").extract_first(default='')
         except ValueError:
             pass
         return dislikes
@@ -122,7 +119,7 @@ class YoutubeSpider(scrapy.Spider):
         """
         channel_name = ""
         try:        # Get div containing channel name, and then data from child
-            channel_name = response.css("div.yt-user-info").extract_first()
+            channel_name = response.css("div.yt-user-info").extract_first(default='')
 
         except ValueError:
             pass
@@ -137,9 +134,10 @@ class YoutubeSpider(scrapy.Spider):
         """
         channel_subscriber_count = ""
         try:
-            channel_subscriber_count = response.css('.yt-subscriber-count').extract_first()
-        except AttributeError:
-            return channel_subscriber_count
+            channel_subscriber_count = response.css('.yt-subscriber-count')\
+                            .extract_first(default='')
+        except:
+            pass
         return channel_subscriber_count
 
     def get_video_publishing_date(self, response):
@@ -152,7 +150,7 @@ class YoutubeSpider(scrapy.Spider):
         publish_date = ""
 
         try:
-            publish_date = response.css(".watch-time-text").extract_first()
+            publish_date = response.css(".watch-time-text").extract_first(default='')
 
         except ValueError:
             pass
