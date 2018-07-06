@@ -5,39 +5,36 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
-import csv
+from scrapy.contrib.exporter import CsvItemExporter
 
 
 class YoutubespiderPipeline(object):
 
     def __init__(self):
-        self.csvwriter = csv.writer(open('data-master.csv', 'wb'))
-        self.csvwriter.writerow(('URL,Title,Views,Likes,Dislikes,Channel Name,'
-                                'Subscribers,Publish Date').split(','))
+        """
+        Define the CSVItemExporter for the YouTubeDataModel.
+
+        Item Exportation, file encoding and the sequence of fields defined.
+        """
+        self.csv_exporter = CsvItemExporter(open('data-master.csv', 'wb'))
+        self.csv_exporter.encoding = 'utf-8'
+        self.csv_exporter.fields_to_export = ['url', 'title'
+                                              , 'views', 'likes', 'dislikes'
+                                              , 'channel_name', 'publish_date'
+                                              , 'channel_subscriber_count']
+
+        self.csv_exporter.start_exporting()
+
+    def spider_closed(self, spider):
+        self.csv_exporter.finish_exporting()
 
     def process_item(self, item, spider):
         """
-        Saves Item data entry as csv
+        Exports item through Item Exporter
 
         :param item: containing the data
         :param spider: spider that extracted and saved inside item
         :return: the item itself
         """
-        # Encode each entry to cater for non-English characters
-        for key, value in item.iteritems():
-            try:
-                item[key] = value.encode('UTF-8')
-            except AttributeError:      # Skip the empty values
-                pass
-
-        self.csvwriter.writerow([
-                                 item['url'],
-                                 item['title'],
-                                 item['views'],
-                                 item['likes'],
-                                 item['dislikes'],
-                                 item['channel_name'],
-                                 item['channel_subscriber_count'],
-                                 item['publish_date']
-                                ])
+        self.csv_exporter.export_item(item)
         return item

@@ -81,8 +81,7 @@ class YoutubeItemLoader(ItemLoader):
     default_output_processor = Join()
     default_input_processor = MapCompose(remove_tags)
 
-    title_in = MapCompose(remove_tags, white_space_stripper,
-                          remove_commas)
+    title_in = MapCompose(remove_tags, white_space_stripper)
 
     views_in = MapCompose(view_number_extractor, remove_commas)
 
