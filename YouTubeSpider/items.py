@@ -38,6 +38,16 @@ def white_space_stripper(x):
     return x.strip()
 
 
+def remove_commas(x):
+
+    out_val = x
+    try:
+        out_val = x.replace(',', '').replace(';', '')
+    except:
+        pass
+    return out_val
+
+
 def view_number_extractor(view_string):
     """
     Gets view number from Extracted view string.
@@ -45,7 +55,7 @@ def view_number_extractor(view_string):
     out_val = view_string
     try:
         out_val = view_string.split()[0]
-    except ValueError:
+    except IndexError:
         pass
     return out_val
 
@@ -57,7 +67,7 @@ def date_value_extractor(date_string):
     out_val = date_string
     try:
         out_val = date_string.split()[2:]
-    except ValueError:
+    except IndexError:
         pass
     return out_val
 
@@ -71,14 +81,17 @@ class YoutubeItemLoader(ItemLoader):
     default_output_processor = Join()
     default_input_processor = MapCompose(remove_tags)
 
-    title_in = MapCompose(remove_tags, white_space_stripper)
+    title_in = MapCompose(remove_tags, white_space_stripper,
+                          remove_commas)
 
-    views_in = MapCompose(view_number_extractor)
+    views_in = MapCompose(view_number_extractor, remove_commas)
 
-    likes_in = MapCompose(remove_tags)
+    likes_in = MapCompose(remove_tags, remove_commas)
 
-    dislikes_in = MapCompose(remove_tags)
+    dislikes_in = MapCompose(remove_tags, remove_commas)
 
-    channel_name_in = MapCompose(remove_tags, white_space_stripper)
+    channel_name_in = MapCompose(remove_tags, white_space_stripper
+                                 , remove_commas)
 
-    publish_date_in = MapCompose(remove_tags, date_value_extractor)
+    publish_date_in = MapCompose(remove_tags, date_value_extractor
+                                 , remove_commas)

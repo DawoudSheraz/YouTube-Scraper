@@ -1,19 +1,21 @@
 import scrapy
+import datetime
+from scrapy.linkextractors import LinkExtractor
+from scrapy.spiders import Rule, CrawlSpider
 from YouTubeSpider.items import YouTubeDataModel
 from YouTubeSpider.items import YoutubeItemLoader
 
 
-class YoutubeSpider(scrapy.Spider):
+class YoutubeSpider(CrawlSpider):
 
     """
     Youtube Spider class that extracts data from a valid Youtube link
     """
 
+    links_out_file = open('%s.txt' % datetime.datetime.now(), 'w')
+    unique_links = {}   # To avoid duplicate links in link extractor
     name = "YoutubeSpider"
     domain = ["youtube.com"]
-    # start_urls = [
-    #     'https://www.youtube.com/watch?v=TA-sVvBPWrM',
-    # ]
 
     def start_requests(self):
         """
@@ -43,8 +45,10 @@ class YoutubeSpider(scrapy.Spider):
         # with open("tem.html", 'w') as f:
         #     f.write(response.body)
 
-        yt_item_loader = YoutubeItemLoader(YouTubeDataModel())
+        # Parse the links
+        self.parse_links(response)
 
+        yt_item_loader = YoutubeItemLoader(YouTubeDataModel())
         yt_item_loader.add_value('url', response.url)
         yt_item_loader.add_value('title', self.get_video_title(response))
         yt_item_loader.add_value('views', self.get_video_views(response))
@@ -155,3 +159,31 @@ class YoutubeSpider(scrapy.Spider):
         except ValueError:
             pass
         return publish_date
+
+    def parse_links(self, response):
+        """
+        Given a response object, valid Youtube videos links are extracted.
+
+        The function extracts all urls and check for validity using
+        1. watch?v string
+        2. allowed domain
+        The valid urls are then saved to csv
+        :param response: fetched page
+        :return:
+        """
+
+        urls = LinkExtractor(canonicalize=True, allow_domains=self.domain)\
+            .extract_links(response)
+
+        for link in urls:
+            # If link was already extracted on another page, don't save it
+            if link.url in self.unique_links:
+                continue
+            if 'watch?v' in link.url:
+                self.links_out_file.write('%s\n' % link.url)
+                self.unique_links[link.url] = 1
+
+
+
+
+
