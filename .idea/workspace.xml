@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="de742b03-972c-4a62-b304-efd7707d8762" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouTubeSpider/items.py" beforeDir="false" afterPath="$PROJECT_DIR$/YouTubeSpider/items.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouTubeSpider/pipelines.py" beforeDir="false" afterPath="$PROJECT_DIR$/YouTubeSpider/pipelines.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouTubeSpider/spiders/youtube_spider.py" beforeDir="false" afterPath="$PROJECT_DIR$/YouTubeSpider/spiders/youtube_spider.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data-master.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data-master.csv" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,10 +14,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="youtube_spider.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="youtube_spider.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/YouTubeSpider/spiders/youtube_spider.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1800">
+            <state relative-caret-position="315">
               <caret line="24" column="32" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
@@ -28,11 +26,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="items.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="items.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/YouTubeSpider/items.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="83" column="59" selection-start-line="83" selection-start-column="59" selection-end-line="83" selection-end-column="59" />
+            <state relative-caret-position="585">
+              <caret line="42" column="15" lean-forward="true" selection-start-line="42" selection-start-column="15" selection-end-line="42" selection-end-column="15" />
             </state>
           </provider>
         </entry>
@@ -54,9 +52,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/YouTubeSpider/spiders/youtube_spider.py" />
         <option value="$PROJECT_DIR$/YouTubeSpider/pipelines.py" />
         <option value="$PROJECT_DIR$/YouTubeSpider/items.py" />
+        <option value="$PROJECT_DIR$/YouTubeSpider/spiders/youtube_spider.py" />
       </list>
     </option>
   </component>
@@ -160,13 +158,10 @@
         <state relative-caret-position="-540" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/YouTubeSpider/spiders/youtube_spider.py">
+    <entry file="file://$PROJECT_DIR$/YouTubeSpider/items.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1800">
-          <caret line="24" column="32" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="585">
+          <caret line="42" column="15" lean-forward="true" selection-start-line="42" selection-start-column="15" selection-end-line="42" selection-end-column="15" />
         </state>
       </provider>
     </entry>
@@ -177,10 +172,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/YouTubeSpider/items.py">
+    <entry file="file://$PROJECT_DIR$/YouTubeSpider/spiders/youtube_spider.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="83" column="59" selection-start-line="83" selection-start-column="59" selection-end-line="83" selection-end-column="59" />
+        <state relative-caret-position="315">
+          <caret line="24" column="32" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

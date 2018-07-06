@@ -67,12 +67,7 @@ class YoutubeSpider(CrawlSpider):
         :param response: Fetched Page
         :return: title of page, empty if invalid entry
         """
-        title = ""
-        try:
-            title = response.css(".watch-title::text").extract_first(default='')
-        except ValueError:
-            pass
-        return title
+        return response.css(".watch-title::text").extract_first(default='')
 
     def get_video_views(self, response):
         """
@@ -80,13 +75,8 @@ class YoutubeSpider(CrawlSpider):
         :param response: Fetched Page
         :return: number of views, empty if not found
         """
-        views = ""
-        try:
-            views = response.css(".watch-view-count::text").extract_first(default='')
-
-        except ValueError:
-            pass
-        return views
+        return response.css(".watch-view-count::text")\
+            .extract_first(default='')
 
     def get_video_likes(self, response):
         """
@@ -94,12 +84,8 @@ class YoutubeSpider(CrawlSpider):
         :param response: Fetched Page
         :return: number of likes, empty if invalid
         """
-        likes = ""
-        try:    # First get the like button, and then data from child span
-            likes = response.css(".like-button-renderer-like-button").extract_first(default='')
-        except ValueError:
-            pass
-        return likes
+        return response.css(".like-button-renderer-like-button")\
+            .extract_first(default='')
 
     def get_video_dislikes(self, response):
         """
@@ -107,12 +93,8 @@ class YoutubeSpider(CrawlSpider):
         :param response: Fetched Page
         :return: number of dislikes, empty if invalid
         """
-        dislikes = ""
-        try:  # First get the dislike button, and then data from child span
-            dislikes = response.css(".like-button-renderer-dislike-button").extract_first(default='')
-        except ValueError:
-            pass
-        return dislikes
+        return response.css(".like-button-renderer-dislike-button")\
+            .extract_first(default='')
 
     def get_video_channel_name(self, response):
         """
@@ -121,13 +103,8 @@ class YoutubeSpider(CrawlSpider):
         :param response: Fetched Page
         :return: Channel name, empty if Invalid or not found
         """
-        channel_name = ""
-        try:        # Get div containing channel name, and then data from child
-            channel_name = response.css("div.yt-user-info").extract_first(default='')
-
-        except ValueError:
-            pass
-        return channel_name
+        return response.css("div.yt-user-info")\
+            .extract_first(default='')
 
     def get_subscriber_count(self, response):
         """
@@ -136,13 +113,8 @@ class YoutubeSpider(CrawlSpider):
         :param response: Fetched Page
         :return: Subscriber count, empty if not found
         """
-        channel_subscriber_count = ""
-        try:
-            channel_subscriber_count = response.css('.yt-subscriber-count')\
-                            .extract_first(default='')
-        except:
-            pass
-        return channel_subscriber_count
+        return response.css('.yt-subscriber-count')\
+            .extract_first(default='')
 
     def get_video_publishing_date(self, response):
         """
@@ -151,14 +123,7 @@ class YoutubeSpider(CrawlSpider):
         :param response: Fetched Page
         :return: Publishing Date, empty if not found
         """
-        publish_date = ""
-
-        try:
-            publish_date = response.css(".watch-time-text").extract_first(default='')
-
-        except ValueError:
-            pass
-        return publish_date
+        return response.css(".watch-time-text").extract_first(default='')
 
     def parse_links(self, response):
         """
