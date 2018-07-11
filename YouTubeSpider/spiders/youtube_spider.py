@@ -17,11 +17,52 @@ class YoutubeSpider(CrawlSpider):
     name = "YoutubeSpider"
     domain = ["youtube.com"]
 
+    cookies = {}
+
+    def define_cookies(self, response):
+
+        temp = response.headers.getlist('Set-Cookie')   # Get Cookies List
+        # temp = '&&'.join(temp)  # Create String
+        # temp = temp.split(';')  # Separate individual value
+        # temp = [x for x in temp if '=' in x]    # Only keep cookies having =
+        #
+        # # Remove cookies having path and domain string
+        # temp = [x for x in temp if 'path' not in x]
+        # temp = [x for x in temp if 'domain' not in x]
+        #
+        # # When joined by &&, some cookies without = get joined
+        # # This for loop removes such cookies
+        # for count in range(0, len(temp)):
+        #     if '&&' in temp[count]:
+        #         temp[count] = temp[count].split('&&')[1]
+        #
+        # # Remove all expiry related things
+        # temp = [x for x in temp if 'expires' not in x]
+
+        # Every required cookie is in first place of list -
+        # - when strings are separated by ';'
+        temp = [x.split(';')[0] for x in [j for j in temp]]
+
+        # Create dictionary from list
+        for count in range(0, len(temp)):
+            val_list = temp[count].split('=')
+
+            # In cases where value actually contains '='
+            if len(val_list) >= 3:
+                self.cookies[val_list[0]] = '='.join(val_list[1:])
+                continue
+
+            self.cookies[val_list[0]] = val_list[1]
+
     def start_requests(self):
         """
         Reads url from input.csv and generates request for each one of them
         :return: Request for each url
         """
+        # First request to Youtube to get user live ID and related cookies
+        yield scrapy.Request('https://www.youtube.com/'
+                             , callback=self.define_cookies)
+
         input_file = open('input.txt', 'r')
         start_url = []
 
@@ -34,7 +75,9 @@ class YoutubeSpider(CrawlSpider):
 
         # Generating request for every url
         for url in start_url:
-            yield scrapy.Request(url=url, callback=self.parse)
+            yield scrapy.Request(url=url
+                                 , callback=self.parse
+                                 , cookies=self.cookies)
 
     def parse(self, response):
         """
@@ -42,8 +85,8 @@ class YoutubeSpider(CrawlSpider):
         :param response: Page from the given url
         :return: data dictionary containing the extracted data
         """
-        # with open("tem.html", 'w') as f:
-        #     f.write(response.body)
+        with open("tem.html", 'w') as f:
+            f.write(response.body)
 
         # Parse the links
         self.parse_links(response)
