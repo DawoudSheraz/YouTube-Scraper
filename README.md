@@ -16,8 +16,7 @@ with a sample web scraper written for a Youtube page in Scrapy. Given a Youtube 
 - Channel Name
 - Channel Subscriber count
 
-After running the scraper, a csv file is generated with all the data. The scraper uses exception handling to provide empty values
-for fields not available on the page e.g. the subscriber count.
+After running the scraper, a csv file is generated with all the data. Besides CSV, a text file with extracted Youtube video links is created. The scraper also provides default values to fields that cannot be located on the page on some links.
 
 ------------------------------------------
 
@@ -31,5 +30,7 @@ For input.txt, add all the urls in the text file. There should only be one url p
 will be extracted and saved to data.csv file. 
 
 For CLI, use command "scrapy crawl YoutubeSpider -a url=ANY_YOUTUBE_URL". This is an example of CLI usage : "scrapy crawl YoutubeSpider -a url=https://www.youtube.com/watch?v=yy76z4u6WqE"
+
+The scraper provides login utility to extract links based on query history. For now, the login details need to be hardcoded in the spider file.
 
 #### CLI has high priority than input.txt. In cases where both input methods are available, only CLI input is handled.
