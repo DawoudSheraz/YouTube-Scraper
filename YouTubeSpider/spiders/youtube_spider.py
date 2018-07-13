@@ -1,7 +1,9 @@
-import scrapy
 import datetime
+import time
+import scrapy
 from scrapy.linkextractors import LinkExtractor
-from scrapy.spiders import Rule, CrawlSpider
+from scrapy.http import FormRequest
+from scrapy.spiders import CrawlSpider
 from YouTubeSpider.items import YouTubeDataModel
 from YouTubeSpider.items import YoutubeItemLoader
 
@@ -15,54 +17,33 @@ class YoutubeSpider(CrawlSpider):
     links_out_file = open('%s.txt' % datetime.datetime.now(), 'w')
     unique_links = {}   # To avoid duplicate links in link extractor
     name = "YoutubeSpider"
-    domain = ["youtube.com"]
+    domain = ["youtube.com", "accounts.google.com"]
 
-    cookies = {}
-
-    def define_cookies(self, response):
-
-        temp = response.headers.getlist('Set-Cookie')   # Get Cookies List
-        # temp = '&&'.join(temp)  # Create String
-        # temp = temp.split(';')  # Separate individual value
-        # temp = [x for x in temp if '=' in x]    # Only keep cookies having =
-        #
-        # # Remove cookies having path and domain string
-        # temp = [x for x in temp if 'path' not in x]
-        # temp = [x for x in temp if 'domain' not in x]
-        #
-        # # When joined by &&, some cookies without = get joined
-        # # This for loop removes such cookies
-        # for count in range(0, len(temp)):
-        #     if '&&' in temp[count]:
-        #         temp[count] = temp[count].split('&&')[1]
-        #
-        # # Remove all expiry related things
-        # temp = [x for x in temp if 'expires' not in x]
-
-        # Every required cookie is in first place of list -
-        # - when strings are separated by ';'
-        temp = [x.split(';')[0] for x in [j for j in temp]]
-
-        # Create dictionary from list
-        for count in range(0, len(temp)):
-            val_list = temp[count].split('=')
-
-            # In cases where value actually contains '='
-            if len(val_list) >= 3:
-                self.cookies[val_list[0]] = '='.join(val_list[1:])
-                continue
-
-            self.cookies[val_list[0]] = val_list[1]
-
-    def start_requests(self):
+    # For Youtube Login
+    def login(self, response):
         """
-        Reads url from input.csv and generates request for each one of them
+        Submit email form.
+        """
+        # open('login.html', 'w').write(response.body)
+        yield FormRequest.from_response(response, formdata={
+            'Email': '',
+        }, callback=self.login_step2)
+
+    def login_step2(self, response):
+        """
+        submit password form and then start extracting the data.
+        """
+        # open('login2.html', 'w').write(response.body)
+        yield FormRequest.from_response(response, formdata={
+            'Passwd': ''
+        }, callback=self.start_extracting)
+
+    def start_extracting(self, response):
+        """
+        Read data from file/command line and scrap data.
+
         :return: Request for each url
         """
-        # First request to Youtube to get user live ID and related cookies
-        yield scrapy.Request('https://www.youtube.com/'
-                             , callback=self.define_cookies)
-
         input_file = open('input.txt', 'r')
         start_url = []
 
@@ -76,8 +57,17 @@ class YoutubeSpider(CrawlSpider):
         # Generating request for every url
         for url in start_url:
             yield scrapy.Request(url=url
+                                 , meta={'dont_merge_cookies': False}
                                  , callback=self.parse
-                                 , cookies=self.cookies)
+                                 )
+
+    def start_requests(self):
+        """
+        Initiates the login to Youtube through gmail.
+        """
+        # First request to Youtube to get user live ID and related cookies
+        yield scrapy.Request('https://accounts.google.com/ServiceLogin/identifier?passive=true&uilel=3&hl=en&continue=https%3A%2F%2Fwww.youtube.com%2Fsignin%3Fnext%3D%252F%26action_handle_signin%3Dtrue%26hl%3Den%26app%3Ddesktop&service=youtube&flowName=GlifWebSignIn&flowEntry=AddSession'
+                             , callback=self.login)
 
     def parse(self, response):
         """
@@ -85,10 +75,12 @@ class YoutubeSpider(CrawlSpider):
         :param response: Page from the given url
         :return: data dictionary containing the extracted data
         """
-        with open("tem.html", 'w') as f:
-            f.write(response.body)
 
-        # Parse the links
+        # open('temp.html', 'w').write(response.body)
+        # open('temp.txt', 'w').write("Request: %s\n\nResponse: %s\n"
+        #                             % (response.request.headers
+        #                                , response.headers))
+        # Link Extraction
         self.parse_links(response)
 
         yt_item_loader = YoutubeItemLoader(YouTubeDataModel())
@@ -97,9 +89,12 @@ class YoutubeSpider(CrawlSpider):
         yt_item_loader.add_value('views', self.get_video_views(response))
         yt_item_loader.add_value('likes', self.get_video_likes(response))
         yt_item_loader.add_value('dislikes', self.get_video_dislikes(response))
-        yt_item_loader.add_value('channel_name', self.get_video_channel_name(response))
-        yt_item_loader.add_value('channel_subscriber_count', self.get_subscriber_count(response))
-        yt_item_loader.add_value('publish_date', self.get_video_publishing_date(response))
+        yt_item_loader.add_value('channel_name'
+                                 , self.get_video_channel_name(response))
+        yt_item_loader.add_value('channel_subscriber_count'
+                                 , self.get_subscriber_count(response))
+        yt_item_loader.add_value('publish_date'
+                                 , self.get_video_publishing_date(response))
 
         return yt_item_loader.load_item()
 
@@ -179,7 +174,6 @@ class YoutubeSpider(CrawlSpider):
         :param response: fetched page
         :return:
         """
-
         urls = LinkExtractor(canonicalize=True, allow_domains=self.domain)\
             .extract_links(response)
 
